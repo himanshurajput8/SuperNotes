@@ -1,0 +1,220 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body{
+  background-color: rgb(214, 211, 211);     
+}
+.container{
+  border: 1px solid rgb(128, 128, 128, 0.4);
+  width: 90%;
+  height: 600px; 
+  border-radius: 20px; 
+  display: flex;
+  margin-top: 3%;
+  margin-left: 5%; 
+  position: relative;       
+}
+.left-div{ 
+  width: 100px;
+  height: 600px;
+  background-color: rgb(253, 248, 248); 
+  border-right: 2px solid gray; 
+  border-radius: 20px 0px 0px 20px;   
+  display: flex;
+  flex-direction:column;
+  gap: 30px;   
+}
+.center-div{
+  width: 40%;
+  height: 600px;
+  background-color: white;
+  overflow: scroll;   
+}
+.center-div h3{
+  margin-bottom: 20px;
+}
+.right-div{
+  width: 70%;
+  height: 600px;
+  background-color: rgb(146, 65, 252);
+  border-radius: 0px 20px 20px 0px;
+  text-align: center;
+  color: white;          
+}
+.right-div h3{
+  margin-top: 40px;
+  font-size: 35px;
+  margin-bottom: 20px;
+  padding: 5px;  
+  color: rgb(242 194 60);  
+  border: none; 
+  outline: none;  
+}
+.right-div h4{
+  padding-bottom: 50px;
+  border: none;
+  outline: none;
+}
+.right-div p{
+  padding-top: 30px;     
+}
+.inner-div{   
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid rgb(128, 128, 128, 0.3);
+  margin-bottom: 10px;      
+}
+.inner-div:hover{
+  background-color: rgb(209, 206, 206);
+}
+.inner-div:first-child{
+  margin-top: 90px;
+}
+.inner-div h3,h4,p{
+ padding: 2px;
+}
+.inner-div h3{
+  font-weight: bold;
+}
+.add-btn{    
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #201b21;
+  color: white; 
+  margin-top: 90px;
+  margin-left: 25px;
+  border: none;
+  outline: none;      
+}
+.empty-div{
+  width: 260px;
+  height: 100px;
+  border: 1px solid rgb(128, 128, 128);
+}
+.btn2, .btn3, .btn4,.btn5{
+  width: 30px;
+  height: 30px; 
+  border-radius: 50%; 
+  margin-left: 25px;
+  border-style: none;    
+}
+.btn2{
+  background-color: rgb(242 194 60);
+}
+.btn3{
+  background-color: tomato;   
+}
+.btn4{
+  background-color: green;
+}
+.btn5{
+  background-color: orange;
+}
+.btn2:hover, .btn3:hover, .btn4:hover,.btn5:hover{    
+  width: 35px;
+  height: 35px;
+}   
+i{
+  font-size: 20px;
+  color: white;    
+}
+.ql-container{
+  height: 63% !important;
+  border: none !important;
+  outline: none !important;
+}
+.center-div::-webkit-scrollbar {
+  display: none;
+}
+/* .ql-toolbar.ql-snow {
+  border: none !important;
+  outline: none !important;    
+}  */
+.ql-toolbar.ql-snow {
+  background-color: rgb(124, 45, 203);
+  margin: 0 35px 0 30px;
+  border: none !important;
+  outline: none !important; 
+}
+.ql-snow .ql-stroke {    
+  stroke: orange !important;      
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label::before, .ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: 'Normal';
+  color: orange !important;
+  font-size: 20px;       
+}
+/* add tooltip */
+.tooltiptext{
+  background-color: black;
+  color: white;
+  padding: 5px 10px ;
+  position: absolute;
+  top: 95px;
+  left: 70px;
+  z-index: 1;
+  border-radius: 5px;    
+  visibility: hidden;
+}
+.tooltiptext::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: rgb(8, 8, 8);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  transform: rotateZ(50deg);      
+}
+.add-btn:hover .tooltiptext{
+  visibility: visible;
+}
+/* theme */
+/* #darkbutton{
+
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: black;
+  color: white;
+  padding: 5px 0px;
+  width: 40px;
+} */
+/* #darkk{
+  background-color: rgb(79, 77, 77);
+} */
+/* #theme-left-div{
+  background-color: rgb(74, 72, 72);
+} */
+#canvas{
+  box-sizing: border-box;
+  border: 1px solid black !important;
+  background-color: rgb(250, 250, 250);
+  height: 300px !important;
+  width: 825px !important;    
+
+}
+.upper-canvas{
+  height: 300px !important;
+  width: 825px !important; 
+}
+#save-btn{
+  padding: 5px 10px;
+  background-color: orange;
+  color: black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-left: 700px;
+}     
+.clear-btn{
+  margin-top: 200px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
