@@ -1,4 +1,7 @@
 import './style.css'
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+import { fabric } from 'fabric';
 
 var jobDetails = JSON.parse(localStorage.getItem('jobDetails')) || [
   { id: "1", date: '01 January  2024', title: 'Job interview preparations', description: 'Your success in a job interview depends a great deal on how you prepare for it. Interview preparation primarily involves researching the job and the company and thoughtfully considering your answers to the interview question' },
@@ -211,7 +214,6 @@ addButton1.addEventListener('click', function () {
 button2.addEventListener('click', function () {
   var date = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
   var newObject = { date: date, title: 'Title..', description: 'to do: <ul><li></li></ul>'}
-  newObject.className = "todo-div"
   jobDetails.unshift(newObject)
   saveToLocalStorage()
   renderData()
