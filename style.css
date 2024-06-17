@@ -1,3 +1,20 @@
+:root {
+  --body-background-color: rgb(214, 211, 211);
+  --container-border-color: rgb(128, 128, 128, 0.4);
+  --left-div-background-color: rgb(253, 248, 248);
+  --left-div-border-right-color: gray;
+  --center-div-background-color: white;
+  --right-div-background-color: rgb(146, 65, 252);
+  --inner-div-border-color: rgb(128, 128, 128, 0.3);
+  --inner-div-hover-background-color: rgb(209, 206, 206);
+  --add-btn-background-color: #201b21;
+  --task-btn-background-color: rgb(255, 99, 71);
+  --scrible-btn-background-color: rgb(0, 128, 0);
+  --share-btn-bacground-color: rgb(255, 165, 0);
+  --ql-toolbar-ql-snow-background-color: rgb(124, 45, 203);
+  --inner-div-delete-btn-background-color: rgb(247, 78, 78);
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -5,25 +22,25 @@
 }
 
 body {
-  background-color: rgb(214, 211, 211);
+  background-color: var(--body-background-color);
 }
 
 .container {
-  border: 1px solid rgb(128, 128, 128, 0.4);  
+  border: 1px solid var(--container-border-color);
   width: 90%;
   height: 600px;
   border-radius: 20px;
   display: flex;
   margin-top: 3%;
-  margin-left: 5%; 
+  margin-left: 5%;
   position: relative;
 }
 
 .left-div {
   width: 100px;
   height: 600px;
-  background-color: rgb(253, 248, 248);
-  border-right: 2px solid gray;
+  background-color: var(--left-div-background-color);
+  border-right: 2px solid var(--left-div-border-right-color);
   border-radius: 20px 0px 0px 20px;
   display: flex;
   flex-direction: column;
@@ -33,7 +50,7 @@ body {
 .center-div {
   width: 40%;
   height: 600px;
-  background-color: white;
+  background-color: var(--center-div-background-color);
   overflow: scroll;
 }
 
@@ -44,7 +61,7 @@ body {
 .right-div {
   width: 70%;
   height: 600px;
-  background-color: rgb(146, 65, 252);
+  background-color: var(--right-div-background-color);
   border-radius: 0px 20px 20px 0px;
   text-align: center;
   color: white;
@@ -73,12 +90,12 @@ body {
 .inner-div {
   padding: 10px;
   margin: 5px;
-  border: 1px solid rgb(128, 128, 128, 0.3);
+  border: 1px solid var(--inner-div-border-color);
   margin-bottom: 10px;
 }
 
 .inner-div:hover {
-  background-color: rgb(209, 206, 206);
+  background-color: var(--inner-div-hover-background-color);
 }
 
 .inner-div:first-child {
@@ -100,7 +117,7 @@ p {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #201b21;
+  background-color: var(--add-btn-background-color);
   color: white;
   margin-top: 90px;
   margin-left: 25px;
@@ -114,10 +131,9 @@ p {
   border: 1px solid rgb(128, 128, 128);
 }
 
-.btn2,
-.btn3,
-.btn4,
-.btn5 {
+.task-btn,
+.scrible-btn,
+.share-btn {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -125,20 +141,16 @@ p {
   border-style: none;
 }
 
-.btn2 {
-  background-color: rgb(242 194 60);
+.task-btn {
+  background-color: var(--task-btn-background-color);
 }
 
-.btn3 {
-  background-color: tomato;
+.scrible-btn {
+  background-color: var(--scrible-btn-background-color);
 }
 
-.btn4 {
-  background-color: green;
-}
-
-.btn5 {
-  background-color: orange;
+.share-btn {
+  background-color: var(--share-btn-bacground-color);
 }
 
 .btn2:hover,
@@ -164,12 +176,8 @@ i {
   display: none;
 }
 
-/* .ql-toolbar.ql-snow {
-  border: none !important;
-  outline: none !important;    
-}  */
 .ql-toolbar.ql-snow {
-  background-color: rgb(124, 45, 203);
+  background-color: var(--ql-toolbar-ql-snow-background-color);
   margin: 0 35px 0 30px;
   border: none !important;
   outline: none !important;
@@ -186,52 +194,10 @@ i {
   font-size: 20px;
 }
 
-/* add tooltip */
-.tooltiptext {
-  background-color: black;
-  color: white;
-  padding: 5px 10px;
-  position: absolute;
-  top: 95px;
-  left: 70px;
-  z-index: 1;
-  border-radius: 5px;
-  visibility: hidden;
-}
-
-.tooltiptext::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background-color: rgb(8, 8, 8);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: -1;
-  transform: rotateZ(50deg);
-}
-
 .add-btn:hover .tooltiptext {
   visibility: visible;
 }
 
-/* theme */
-/* #darkbutton{
-
-  border-radius: 5px;
-  margin-top: 20px;
-  margin-left: 20px;
-  background-color: black;
-  color: white;
-  padding: 5px 0px;
-  width: 40px;
-} */
-/* #darkk{
-  background-color: rgb(79, 77, 77);
-} */
-/* #theme-left-div{
-  background-color: rgb(74, 72, 72);
-} */
 #canvas {
   box-sizing: border-box;
   border: 1px solid black !important;
@@ -246,19 +212,25 @@ i {
   width: 825px !important;
 }
 
-#save-btn {
-  padding: 5px 10px;
-  background-color: orange;
-  color: black;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-left: 700px;
-}
-
-.clear-btn {
+.canvas-clear-btn {
   margin-top: 200px;
   padding: 5px;
   border-radius: 5px;
   border: none;
   outline: none;
+}
+
+.inner-div-delete-btn {
+  margin-left: 400px;
+  padding: 0px 5px;
+  background-color: var(--inner-div-delete-btn-background-color);
+  border: none;
+  outline: none;
+  color: white;
+  font-weight: bold;
+}
+
+.three-dot i {
+  color: black;
+  margin-left: 400px;
 }

@@ -22,7 +22,7 @@ var jobDetails = JSON.parse(localStorage.getItem('jobDetails')) || [
 var container = document.createElement('div')
 container.className = "container"
 
-var leftDiv = document.createElement('div')//leftdiv 
+var leftDiv = document.createElement('div')//leftdiv  
 leftDiv.className = "left-div"
 container.appendChild(leftDiv)
 
@@ -39,54 +39,69 @@ addButton1.className = "add-btn"
 addButton1.innerHTML = '<i class="fa-solid fa-plus"></i>'
 leftDiv.appendChild(addButton1)
 
-var button2 = document.createElement('button')
-button2.className = "btn2"
-button2.innerHTML = '<i class="fa-solid fa-check"></i>'
-leftDiv.appendChild(button2)
+var taskButton = document.createElement('button')
+taskButton.className = "task-btn"
+taskButton.innerHTML = '<i class="fa-solid fa-check"></i>'
+leftDiv.appendChild(taskButton)
 
-var button3 = document.createElement('button')
-button3.className = "btn3"
-button3.innerHTML = '<i class="fa-solid fa-pencil"></i>'
-leftDiv.appendChild(button3)
-
-var button4 = document.createElement('button')
-button4.className = "btn4"
-button4.innerHTML = '<i class="fa-regular fa-note-sticky"></i>'
-leftDiv.appendChild(button4)
+var scribleButton = document.createElement('button')
+scribleButton.className = "scrible-btn"
+scribleButton.innerHTML = '<i class="fa-solid fa-pencil"></i>'
+leftDiv.appendChild(scribleButton)
 
 var shareButton = document.createElement('button')
-shareButton.className = "btn5"
+shareButton.className = "share-btn"
 shareButton.innerHTML = '<i class="fa-solid fa-share-nodes"></i>'
 leftDiv.appendChild(shareButton)
 
 document.body.appendChild(container)
 
-function sortJobDetailsByDate() {
-  jobDetails.sort(function(a, b){
-    return new Date(a.date) + new Date(b.date);
-  });
-}
+
 
 // renderdata
 function renderData() {
-  sortJobDetailsByDate()
   var content = jobDetails.map(function (item) {
-    return `<div class= "inner-div" ${item.id}> 
+    return `<div class= "inner-div" ${item.id}>    
+          <button class="inner-div-delete-btn" data-index="${item.index}">X</button>
           <h3>${item.date}</h3>
           <h4>${item.title}</h4>
           <p>${item.description}</p>
+          
           </div>`
   }).join("")
   centerDiv.innerHTML = content
 
-  //add addEventlistner to innerDivs
-  var innerDivs = document.querySelectorAll('.inner-div')
+  // Add event listeners to inner delete buttons
+  var deleteButtons = document.querySelectorAll('.inner-div-delete-btn');
+  deleteButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      var index = event.target.getAttribute('data-index');
+      jobDetails.splice(index, 1);
+      saveToLocalStorage();
+      renderData();
+      rightDiv.innerHTML = '';
+    });
+  });
+  // Add event listeners to innerDivs
+  var innerDivs = document.querySelectorAll('.inner-div');
   innerDivs.forEach(function (item, index) {
     item.addEventListener('click', function () {
-      renderDataRightDiv(jobDetails, index)
-    })
-  })
-}
+      document.querySelectorAll('.inner-div').forEach(function (note) {
+        note.classList.remove('active');
+        note.style.backgroundColor = '';
+      });
+      item.classList.add('active');
+      item.style.backgroundColor = 'red';
+      renderDataRightDiv(jobDetails, index);
+    });
+  }); 
+} 
+
+//sort by date
+jobDetails.sort(function (a, b) {
+  return new Date(b.date) - new Date(a.date);
+});
+
 renderData()
 
 // render data in rightDiv 
@@ -95,6 +110,7 @@ function renderDataRightDiv(jobDetails, index) {
   rightDiv.innerHTML = ""
 
   var headingdiv = document.createElement('h3')
+  headingdiv.className = "heading-div"
   var titleDiv = document.createElement('h4')
   var descriptionDiv = document.createElement('p')
   descriptionDiv.id = "content"
@@ -102,19 +118,14 @@ function renderDataRightDiv(jobDetails, index) {
   titleDiv.contentEditable = "true"
   descriptionDiv.contentEditable = "true"
 
-  headingdiv.textContent = jobDetails[index].date 
+  headingdiv.textContent = jobDetails[index].date
   titleDiv.textContent = jobDetails[index].title
   descriptionDiv.innerHTML = jobDetails[index].description
 
   rightDiv.appendChild(headingdiv)
-  rightDiv.appendChild(titleDiv) 
+  rightDiv.appendChild(titleDiv)
 
   if (jobDetails[index].type === 'drawing') {
-    // var saveButton = document.createElement('button')
-    // saveButton.textContent = "Save" 
-    // saveButton.id = "save-btn"
-    // rightDiv.appendChild(saveButton)
-
     var canvasDiv = document.createElement('div')
     canvasDiv.className = "canvas-div"
     canvasDiv.innerHTML = '<canvas id="canvas"></canvas>'
@@ -123,7 +134,7 @@ function renderDataRightDiv(jobDetails, index) {
     var canvas = new fabric.Canvas('canvas', {
       isDrawingMode: true
     })
-    // 
+    // canvas autoSave
     if (jobDetails[index].description.includes('<img')) {
       var imgSrc = jobDetails[index].description.match(/src="([^"]+)"/)[1];
       fabric.Image.fromURL(imgSrc, function (img) {
@@ -136,6 +147,7 @@ function renderDataRightDiv(jobDetails, index) {
     canvas.on('path:created', function () {
       autoSaveDrawing(canvas);
     });
+    //canvas autoSave function
     function autoSaveDrawing(canvas) {
       var drawingData = canvas.toDataURL('image/png');
       jobDetails[index].description = `<img src="${drawingData}" />`;
@@ -143,38 +155,28 @@ function renderDataRightDiv(jobDetails, index) {
       renderData(jobDetails);
       renderDataRightDiv(jobDetails, index)
     }
+    // clear Canvas Button
     var clearButton = document.createElement('button');
     clearButton.textContent = 'Clear Canvas';
-    clearButton.classList.add('clear-btn');
+    clearButton.classList.add('canvas-clear-btn');
     rightDiv.appendChild(clearButton);
+    var index = rightDiv.getAttribute('data-index');
 
+    // add addEventListener to clear canvas button
     clearButton.addEventListener('click', function () {
       canvas.clear();
-      currentNote.content = '';
-      for (let i = 0; i < jobDetails.length; i++) {
-        if (jobDetails[i].id === jobDetails[index].id) {
-          jobDetails[i].content = '';
-        }
-      }
+      jobDetails[index].description = '';
       saveToLocalStorage();
-      renderNotes(jobDetails); 
+      renderData()
+      renderDataRightDiv(jobDetails, index);
     });
-    //
-    // saveButton.addEventListener('click', function () {
-    //     var dataUrl = canvas.toDataURL('image/png')
-    //     var index = rightDiv.getAttribute('data-index')
-    //     jobDetails[index].description = `<img src="${dataUrl}"/>`
-    //     saveToLocalStorage()
-    //     renderData()
-    //     renderDataRightDiv(jobDetails, index)
-    // })
 
   } else {
     //  add quill editor
     var quillContainer = document.createElement('div')
     quillContainer.className = "content"
     rightDiv.appendChild(quillContainer)
-    quillContainer.textContent = jobDetails[index].date 
+    quillContainer.textContent = jobDetails[index].date
     quillContainer.textContent = jobDetails[index].title
     quillContainer.innerHTML = jobDetails[index].description
     var quill = new Quill(".content", {
@@ -182,13 +184,15 @@ function renderDataRightDiv(jobDetails, index) {
     })
     quill.on('text-change', function () {
       jobDetails[index].description = quill.root.innerHTML;
+      jobDetails[index].date = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+
       saveToLocalStorage()
       renderData(jobDetails)
     });
   }
   rightDiv.addEventListener('input', changeData)
 }
-
+//change data when edit
 function changeData() {
   var index = rightDiv.getAttribute('data-index')
   var headingdiv = rightDiv.querySelector('h3')
@@ -200,6 +204,8 @@ function changeData() {
   jobDetails[index].description = descriptionDiv.textContent
   saveToLocalStorage()
   renderData()
+  var changeDate = document.querySelector('.heading-div')
+  changeDate.textContent = jobDetails[index].date
 }
 // addButton
 addButton1.addEventListener('click', function () {
@@ -208,19 +214,21 @@ addButton1.addEventListener('click', function () {
   jobDetails.unshift(newObject)
   saveToLocalStorage()
   renderData()
-  renderDataRightDiv(jobDetails, 0) 
+  renderDataRightDiv(jobDetails, 0)
 })
+
 // task button
-button2.addEventListener('click', function () {
+taskButton.addEventListener('click', function () {
   var date = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-  var newObject = { date: date, title: 'Title..', description: 'to do: <ul><li></li></ul>'}
+  var newObject = { date: date, title: 'Title..', description: 'to do: <ul><li></li></ul>' }
   jobDetails.unshift(newObject)
   saveToLocalStorage()
   renderData()
-  renderDataRightDiv(jobDetails, 0) 
+  renderDataRightDiv(jobDetails, 0)
 })
 renderDataRightDiv(jobDetails, 0)
 
+// scrible button function
 function scriblebtn() {
   rightDiv.innerHTML = ""
   var date = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -230,22 +238,28 @@ function scriblebtn() {
   renderData()
   renderDataRightDiv(jobDetails, 0)
 }
-button3.addEventListener('click', scriblebtn)
-// localStorage
+scribleButton.addEventListener('click', scriblebtn)
+
+// localStorage function
 function saveToLocalStorage() {
   localStorage.setItem('jobDetails', JSON.stringify(jobDetails));
-} 
+}
+// add addEventListener to shareButton
+shareButton.addEventListener('click', async function () {
+  try {
+    var index = rightDiv.getAttribute('data-index');
+    if (navigator.share) {
+      await navigator.share({
+        title: jobDetails[index].title,
+        text: jobDetails[index].description,
+        url: window.location.href
+      });
+    } else {
+      console.log('Web Share API not supported.');
+    }
+  } catch (error) {
+    console.error('Error sharing:', error);
+  }
+});
 
-// // theme
-// var darkbtn = document.querySelector('#darkbutton')
-// darkbtn.addEventListener('click', function () {
-//     document.body.style.backgroundColor = "gray"
 
-//     centerDiv.style.color = "white"
-//     centerDiv.id = "darkk"
-//     leftDiv.id = "theme-left-div"
-//     rightDiv.style.backgroundColor = "black"
-//     darkbtn.style.backgroundColor = "lightgray"
-//     darkbtn.style.color = "black"
-//     darkbtn.textContent = "light"
-// })
