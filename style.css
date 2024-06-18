@@ -234,3 +234,9 @@ i {
   color: black;
   margin-left: 400px;
 }
+.selected{
+  background-color: rgb(146, 65, 252);
+}
+.active{
+  background-color: red;
+}
