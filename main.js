@@ -96,7 +96,7 @@ function deleteItem(id) {
       console.log(jobDetailsObject) 
       document.querySelectorAll('.inner-div').forEach(function (note) {
         note.classList.remove('active');
-        note.style.backgroundColor = '';
+        note.style.backgroundColor = ''; 
       });
       item.classList.add('active');
       item.style.backgroundColor = 'rgb(146, 65, 252)';  
@@ -104,7 +104,6 @@ function deleteItem(id) {
     });
   });    
 }
-
 
 //sort by date
 jobDetails.sort(function (a, b) {
@@ -172,7 +171,7 @@ function renderDataRightDiv(jobDetailsObject) {
       jobDetailsObject.description = `<img src="${drawingData}" />`;
       saveToLocalStorage();
       renderData(jobDetails);
-      renderDataRightDiv(jobDetailsObject)
+      renderDataRightDiv(jobDetailsObject) 
     }
     // clear Canvas Button
     var clearButton = document.createElement('button');
@@ -187,7 +186,7 @@ function renderDataRightDiv(jobDetailsObject) {
       saveToLocalStorage();
       renderData()
       renderDataRightDiv(jobDetailsobject);
-    });
+    }); 
 
   } else {
     //  add quill editor
@@ -203,7 +202,6 @@ function renderDataRightDiv(jobDetailsObject) {
     quill.on('text-change', function () {
       jobDetailsObject.description = quill.root.innerHTML;
       jobDetailsObject.date = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-
       saveToLocalStorage()
       renderData()
     });
@@ -220,7 +218,7 @@ function changeData(jobDetailsObject) {
   var descriptionDiv = rightDiv.querySelector('p')     
   saveToLocalStorage() 
   renderData()
-  var changeDate = document.querySelector('.heading-div') 
+  var changeDate = document.querySelector('.heading-div')  
   headingdiv.textContent = jobDetailsObject.date 
 }
 
@@ -278,7 +276,7 @@ shareButton.addEventListener('click', async function () {
 
     if (!jobDetailsObject) {
       console.error('No job details object found with id:', id);
-      return;
+      return; 
     }
 
     if (navigator.share) {
@@ -288,7 +286,7 @@ shareButton.addEventListener('click', async function () {
         url: window.location.href
       });
     } else {
-      console.log('Web Share API not supported.');
+      console.log('Web Share API not supported .');
     }
   } catch (error) {
     console.error('Error sharing:', error);
